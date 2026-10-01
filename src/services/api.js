@@ -3,11 +3,11 @@ const BASE_URL = "http://10.0.2.2:3000";
 
 export async function buscarLivros() {
   try {
-    const response = await fetch(${BASE_URL}/livros);
+    const response = await fetch(`${BASE_URL}/livros`);
 
     if (!response.ok) {
       throw new Error(
-        Erro ${response.status}: Falha ao buscar livros
+        `Erro ${response.status}: Falha ao buscar livros`
       );
     }
 
@@ -20,11 +20,11 @@ export async function buscarLivros() {
 
 export async function buscarLivroPorId(id) {
   try {
-    const response = await fetch(${BASE_URL}/livros/${id});
+    const response = await fetch(`${BASE_URL}/livros/${id}`);
 
     if (!response.ok) {
       throw new Error(
-        Erro ${response.status}: livro não encontrado
+        `Erro ${response.status}: livro não encontrado`
       );
     }
 
@@ -40,7 +40,7 @@ export async function adicionarFavorito(
   observacao = " "
 ) {
   try {
-    const response = await fetch(${BASE_URL}/favoritos, {
+    const response = await fetch(`${BASE_URL}/favoritos`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,7 +56,7 @@ export async function adicionarFavorito(
 
       const erro = new Error(
         corpo.erro ??
-          Erro ${response.status}: falha ao adicionar favorito
+         `Erro ${response.status}: falha ao adicionar favorito`
       );
 
       erro.status = response.status;
@@ -73,11 +73,11 @@ export async function adicionarFavorito(
 
 export async function listarFavoritos() {
   try {
-    const response = await fetch(${BASE_URL}/favoritos);
+    const response = await fetch(`${BASE_URL}/favoritos`);
 
     if (!response.ok) {
       throw new Error(
-        Erro ${response.status}: falha ao listar favoritos
+        `Erro ${response.status}: falha ao listar favoritos`
       );
     }
 
@@ -90,7 +90,7 @@ export async function listarFavoritos() {
 
 export async function editarFavorito(id, observacao) {
   try {
-    const response = await fetch(${BASE_URL}/favoritos/${id}, {
+    const response = await fetch(`${BASE_URL}/favoritos/${id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -102,7 +102,7 @@ export async function editarFavorito(id, observacao) {
 
     if (!response.ok) {
       throw new Error(
-        Erro ${response.status}: falha ao editar favorito
+        `Erro ${response.status}: falha ao editar favorito`
       );
     }
 
@@ -113,17 +113,17 @@ export async function editarFavorito(id, observacao) {
   }
 }
 
-export default function removerFavorito(id){
-  try{
-    const response = await fetch(`${BASE_URL}/favoritos/${id}`,{
-      method: "DELETE"
-    })
-    if(!response.ok){
-      throw new Error(`Erro ${response.status}: falha ao remover favorito`)
+// export default function removerFavorito(id){
+//   try{
+//     const response = await fetch(`${BASE_URL}/favoritos/${id}`,{
+//       method: "DELETE"
+//     })
+//     if(!response.ok){
+//       throw new Error(`Erro ${response.status}: falha ao remover favorito`)
 
-    }
-  } catch(e){
-    console.error("removerFavorito:", e.message)
-    throw
-  } erro
-}
+//     }
+//   } catch(e){
+//     console.error("removerFavorito:", e.message)
+//     throw
+//   } erro
+// }

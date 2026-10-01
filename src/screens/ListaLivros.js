@@ -12,12 +12,48 @@ export default function ListaLivros({ navigation }) {
   const [erro, setErro] = useState(null);
 
   const carregar = useCallback(async () => {
-    // TODO: chamar buscarLivros() e atualizar os estados livros, carregando e erro
+    setCarregando(true)
+    setErro(null)
+    try{
+      const dados= await buscarLivros()
+      setLivros(dados)
+    } catch  (e){
+      setErro(e.message)
+    }finally{
+      setCarregando(false)
+    }
   }, []);
 
   useEffect(() => {
     carregar();
   }, [carregar]);
+
+  async function handleAdicionarFavorito() {
+    setAdicionando(true)
+    setFeedback(null)
+    try{
+      await adicionarFavorito(livro.id, "")
+      setJaFavoritado(true)
+      setFeedback({tipo: "sucesso", texto: "Adicionado aos favoritos"})
+    }catch (e){
+      if(e.status === 409){
+        setJaFavoritado(true)
+        setFeedback({
+          tipo: "sucesso", 
+          texto: "Este livro ja esta nos meus favoritos"
+        })
+      } else{
+        setFeedback({
+          tipo: "Erro",
+          texto: "Erro ao adicionar. tente novamente"
+       
+      })
+    }  
+  } finally{
+    setAdicionando(false)
+    setTimeout(()=>setFeedback(null), 3000)
+  }
+}
 
   if (carregando) {
     return (

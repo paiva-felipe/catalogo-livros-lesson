@@ -39,13 +39,18 @@ export default function Favoritos() {
   );
 
   async function handleEditar(id, observacao) {
-    // TODO: chamar editarFavorito(id, observacao) e atualizar o item no estado favoritos
+    const atualizado = await adietarFavorito(id, observacao)
+    setFavoritos((listaAtual)=> listaAtual.map((favorito)=>favorito.id === id ? {...favoritos, observacao: atualizado.observacao}: favorito,))
   }
 
   async function handleRemover(id) {
-    // TODO: chamar removerFavorito(id) e retirar o item do estado favoritos
-  }
-
+    try{
+      await removerFavorito(id)
+      serFavoristos((listaAtual)=> listaAtual.filter((favorito) => favorito.id !== id),
+    )
+    } catch (e){
+      Alert.alert("erro")
+    }
   if (carregando) {
     return (
       <View style={[styles.centrado, { backgroundColor: cores.background }]}>
@@ -129,4 +134,5 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     borderRadius: 8,
   },
-});
+})
+}
